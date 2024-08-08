@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "TheHotels",
+    "slug": "TheHotels",
+    "version": "1.0.0",
+    "android": {
+      "package": "com.akhilsai25.TheHotels"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9b75222b-af13-4993-9cb7-fceb2a75141f"
+      }
+    }
+  },
+  "name": "TheHotels"
+}

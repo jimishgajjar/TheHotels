@@ -1,0 +1,25 @@
+{
+  "rooms": [
+    {
+      "id": 1,
+      "name": "Luxury Suite",
+      "imageUri": "https://example.com/images/luxury-suite.jpg",
+      "description": "Spacious luxury suite with ocean view",
+      "price": 300
+    },
+    {
+      "id": 2,
+      "name": "Deluxe Room",
+      "imageUri": "https://example.com/images/deluxe-room.jpg",
+      "description": "Comfortable deluxe room with city view",
+      "price": 200
+    },
+    {
+      "id": 3,
+      "name": "Standard Room",
+      "imageUri": "https://example.com/images/standard-room.jpg",
+      "description": "Cozy standard room with garden view",
+      "price": 100
+    }
+  ]
+}
