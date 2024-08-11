@@ -1,14 +1,22 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import { useNavigation } from "@react-navigation/native";
 
 const Header = ({ title }) => {
+  const navigation = useNavigation();
+
+  const handleSearchPress = () => {
+    navigation.navigate("Search");
+  };
+
   return (
     <View style={styles.header}>
       <Text style={styles.headerText}>{title}</Text>
       <View style={styles.iconContainer}>
-        <Icon name="search" size={30} color="#000" style={styles.icon} />
-        <Icon name="person-circle" size={30} color="#000" style={styles.icon} />
+        <TouchableOpacity onPress={handleSearchPress}>
+          <Icon name="search" size={30} color="#000" style={styles.icon} />
+        </TouchableOpacity>
       </View>
     </View>
   );

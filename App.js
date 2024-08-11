@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -7,9 +7,11 @@ import HomeScreen from "./screens/HomeScreen";
 import SearchScreen from "./screens/SearchScreen";
 import AccountScreen from "./screens/AccountScreen";
 import UserBookings from "./screens/UserBookings";
-import MainScreen from "./screens/MainScreen";
 import ScreenWrapper from "./components/ScreenWrapper";
+import SigninScreen from "./screens/SigninScreen";
+import SignupScreen from "./screens/SignupScreen";
 import BookingScreen from "./screens/BookingScreen";
+import seedRoomsData from "./utils/seedFirbaseData";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -83,17 +85,32 @@ const MainTabNavigator = () => (
 );
 
 const App = () => {
+  useEffect(() => {
+    const initializeDatabase = async () => {
+      console.log("*************");
+      await seedRoomsData();
+      console.log("*************");
+    };
+
+    initializeDatabase();
+  }, []);
+
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen
-          name="Login"
-          component={MainScreen}
-          options={{ headerShown: false }}
-        />
+      <Stack.Navigator initialRouteName="SigninScreen">
         <Stack.Screen
           name="MainTabNavigator"
           component={MainTabNavigator}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SigninScreen"
+          component={SigninScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SignupScreen"
+          component={SignupScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen name="BookingScreen" component={BookingScreen} />

@@ -1,22 +1,10 @@
 import { create } from "zustand";
 
 const globalStore = create((set) => ({
+  user: null,
   rooms: [],
   setRooms: (rooms) => set({ rooms }),
-  user: {
-    name: "",
-    email: "",
-    mobile: "",
-    birthdate: "",
-    bookings: [],
-  },
-  setUser: (updatedUser) =>
-    set((state) => ({
-      user: {
-        ...state.user,
-        ...updatedUser,
-      },
-    })),
+  setUser: (user) => set({ user }),
 }));
 
 export default globalStore;

@@ -4,7 +4,7 @@
     "slug": "TheHotels",
     "version": "1.0.0",
     "android": {
-      "package": "com.akhilsai25.TheHotels"
+      "package": "com.thehotels"
     },
     "extra": {
       "eas": {

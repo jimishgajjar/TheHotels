@@ -13,14 +13,14 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useStore } from "zustand";
 import globalStore from "../store";
+import database from "../database";
 
 const BookingScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const { room } = route.params;
 
-  // Access user data and setUser function from Zustand store
-  const { user, setUser } = useStore(globalStore);
+  const { room } = route.params;
+  const { user } = useStore(globalStore);
 
   const [persons, setPersons] = useState([{ id: 1, name: "", age: "" }]);
   const [children, setChildren] = useState([{ id: 1, name: "", age: "" }]);
@@ -36,7 +36,7 @@ const BookingScreen = () => {
   const handleRemovePerson = () => {
     if (persons.length > 1) {
       const updatedPersons = [...persons];
-      updatedPersons.pop(); // Remove the last person
+      updatedPersons.pop();
       setPersons(updatedPersons);
     }
   };
@@ -50,7 +50,7 @@ const BookingScreen = () => {
   const handleRemoveChild = () => {
     if (children.length > 1) {
       const updatedChildren = [...children];
-      updatedChildren.pop(); // Remove the last child
+      updatedChildren.pop();
       setChildren(updatedChildren);
     }
   };
@@ -69,8 +69,7 @@ const BookingScreen = () => {
     }
   };
 
-  const handleConfirmBooking = () => {
-    // Prepare adults and children details from state
+  const handleConfirmBooking = async () => {
     const adultsDetails = persons.map((person) => ({
       type: "adult",
       name: person.name,
@@ -82,33 +81,34 @@ const BookingScreen = () => {
       age: child.age,
     }));
 
-    // Combine adults and children into one array
     const allPersons = [...adultsDetails, ...childrenDetails];
 
-    // Prepare booking details object
     const bookingDetails = {
-      room: room.name,
-      persons: allPersons, // Combined array of adults and children
+      userId: user.id,
+      roomId: room.id,
+      persons: allPersons,
     };
 
-    // Update user's bookings in state
-    const updatedUser = {
-      ...user,
-      bookings: [...(user.bookings || []), bookingDetails],
-    };
-    setUser(updatedUser); // Update user state with new bookings
-
-    console.log("User updated:", updatedUser);
-    navigation.navigate("Bookings");
+    try {
+      await database.write(async () => {
+        const newBooking = await database.get("bookings").create((booking) => {
+          booking.userId = bookingDetails.userId;
+          booking.roomId = bookingDetails.roomId;
+          booking.persons = bookingDetails.persons;
+        });
+        console.log("Inserted New Booking: ", newBooking);
+      });
+      navigation.navigate("Bookings");
+    } catch (error) {
+      console.error("Error saving booking: ", error);
+    }
   };
 
-  // Function to validate numeric input for age
   const handleAgeChange = (text, id, type) => {
     const regex = /^[0-9\b]+$/;
     if (regex.test(text)) {
       handleNameChange(text, id, type, "age");
     }
-    // You can add additional handling or feedback for non-numeric input if needed
   };
 
   return (
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
   },
   ageInput: {
     marginBottom: 10,
-    width: 60, // Adjust width as needed
+    width: 60,
     borderRadius: 5,
     textAlign: "center",
   },
@@ -275,20 +275,17 @@ const styles = StyleSheet.create({
   },
   confirmButton: {
     backgroundColor: "#84e9bd",
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    padding: 20,
     borderRadius: 5,
-    alignSelf: "stretch",
     alignItems: "center",
-    position: "absolute",
-    bottom: 20,
-    left: 20,
-    right: 20,
+    alignSelf: "center",
+    marginBottom: 20,
+    width: "60%",
   },
   confirmButtonText: {
-    color: "#000",
-    fontSize: 16,
+    color: "#fff",
     fontWeight: "bold",
+    fontSize: 16,
   },
 });
 

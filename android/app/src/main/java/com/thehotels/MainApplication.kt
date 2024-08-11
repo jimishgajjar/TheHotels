@@ -1,4 +1,4 @@
-package com.akhilsai25.TheHotels
+package com.thehotels
 
 import android.app.Application
 import android.content.res.Configuration
