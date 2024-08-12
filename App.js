@@ -85,15 +85,15 @@ const MainTabNavigator = () => (
 );
 
 const App = () => {
-  useEffect(() => {
-    const initializeDatabase = async () => {
-      console.log("*************");
-      await seedRoomsData();
-      console.log("*************");
-    };
+  // useEffect(() => {
+  //   const initializeDatabase = async () => {
+  //     console.log("*************");
+  //     await seedRoomsData();
+  //     console.log("*************");
+  //   };
 
-    initializeDatabase();
-  }, []);
+  //   initializeDatabase();
+  // }, []);
 
   return (
     <NavigationContainer>

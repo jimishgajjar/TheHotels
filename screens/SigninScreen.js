@@ -12,8 +12,8 @@ import database from "../database/";
 import globalStore from "../store";
 
 const SigninScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("jimish.gajjar@gmail.com");
-  const [password, setPassword] = useState("123456");
+  const [email, setEmail] = useState("akhil@gmail.com");
+  const [password, setPassword] = useState("akhil123");
 
   const setUser = globalStore((state) => state.setUser);
 

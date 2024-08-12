@@ -28,6 +28,13 @@ const HomeScreen = () => {
   const [loading, setLoading] = useState(true);
   const { rooms, setRooms } = globalStore();
 
+  // Random coordinates for additional markers
+  const coordinates = [
+    [longitude, latitude],
+    [longitude + 0.01, latitude + 0.01],
+    [longitude - 0.01, latitude - 0.01],
+  ];
+
   function handleBookNow(room) {
     navigation.navigate("BookingScreen", { room });
   }
@@ -101,14 +108,18 @@ const HomeScreen = () => {
             zoomLevel={10}
             centerCoordinate={[longitude, latitude]}
           />
-          <MapboxGL.PointAnnotation
-            id="marker1"
-            coordinate={[longitude, latitude]}
-          >
-            <View style={styles.markerContainer}>
-              <View style={styles.markerIcon} />
-            </View>
-          </MapboxGL.PointAnnotation>
+          {coordinates.map((coord, index) => (
+            <MapboxGL.PointAnnotation
+              key={`marker-${index}`}
+              id={`marker-${index}`}
+              coordinate={coord}
+            >
+              <Image
+                source={require("../assets/images/map.png")}
+                style={styles.markerIcon}
+              />
+            </MapboxGL.PointAnnotation>
+          ))}
         </MapboxGL.MapView>
       </View>
 
@@ -160,15 +171,10 @@ const styles = StyleSheet.create({
   mapStyle: {
     flex: 1,
   },
-  markerContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
   markerIcon: {
-    width: 30,
-    height: 30,
-    backgroundColor: "#84e9bd",
-    borderRadius: 15,
+    width: 40,
+    height: 40,
+    resizeMode: "contain",
   },
   experiencesSection: {
     paddingBottom: 20,

@@ -1,4 +1,5 @@
 import firestore from "@react-native-firebase/firestore";
+import database from "../database/";
 
 async function seedRoomsData() {
   console.log("Seeding rooms data...");
@@ -48,6 +49,16 @@ async function seedRoomsData() {
       console.error(`Error adding room: ${room.name}`, error);
     }
   }
+
+  await database.write(async () => {
+    const newUser = await database.get("users").create((user) => {
+      user.name = "Akhil";
+      user.email = "akhil@gmail.com";
+      user.mobile = "45678123";
+      user.password = "akhil123";
+    });
+    console.log("Inserted New User: ", newUser);
+  });
 }
 
 export default seedRoomsData;
